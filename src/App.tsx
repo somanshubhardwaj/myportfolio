@@ -311,7 +311,7 @@ const Projects = () => {
             {project.name}
           </a>
           <p className="text-sm text-gray-400">{project.description}</p>
-          <div className="flex gap-2 py-2 flex-wrap">
+          <div className="flex gap-2 py-2 flex-wrap justify-between">
             {project.techstack.map((tech) => (
               <span className="text-sm border  border-[#60aeff] px-3 py-1 rounded-3xl">
                 {tech}
