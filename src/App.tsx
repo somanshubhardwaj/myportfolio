@@ -69,7 +69,7 @@ export default function App() {
         <section>
           <section className="flex gap-6 w-full items-center py-6">
             <div className="">
-              <img src={profile} alt="" className="w-24" />
+              <img src={profile} alt="" className="w-24 rounded-full" />
             </div>
             <div className="flex flex-col  ">
               <h1 className="text-2xl font-bold">Somanshu Bhardwaj</h1>
@@ -311,7 +311,7 @@ const Projects = () => {
             {project.name}
           </a>
           <p className="text-sm text-gray-400">{project.description}</p>
-          <div className="flex gap-2 py-2">
+          <div className="flex gap-2 py-2 flex-wrap">
             {project.techstack.map((tech) => (
               <span className="text-sm border  border-[#60aeff] px-3 py-1 rounded-3xl">
                 {tech}
