@@ -1,5 +1,5 @@
 import profile from "./assets/react.svg";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence,useScroll,useSpring } from "framer-motion";
 import { useState } from "react";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,12 +25,14 @@ import {
   faMarkdown,
 } from "@fortawesome/free-brands-svg-icons";
 export default function App() {
-  const [tabs, setTabs] = useState<number>(1);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+  const [tabs, setTabs] = useState<number>(2);
   const tabsList = [
-    {
-      id: 1,
-      name: "About",
-    },
     {
       id: 2,
       name: "Projects",
@@ -41,23 +43,25 @@ export default function App() {
     },
   ];
   return (
+    <>
+    <motion.div className="progress-bar" style={{scaleX}}/>
     <div className="bg-gray-900 text-white min-h-screen p-3 flex justify-center">
       <div className="w-full md:w-1/3 lg:w-1/3">
         <nav className="flex justify-between items-center">
           <div className="border px-2 py-1 rounded-md">
-            <a className="gap-2 flex justify-between items-center" href="">
+            <a className="gap-2 flex justify-between items-center" href="https://github.com/somanshubhardwaj">
               <FontAwesomeIcon icon={faGithub} className="text-xl" />
               somanshubhardwaj
             </a>
           </div>
           <div className="flex gap-2">
-            <a href="" className="">
+            <a href="https://www.linkedin.com/in/somanshubhardwaj" className="">
               <FontAwesomeIcon icon={faLinkedin} className="text-2xl" />
             </a>
-            <a href="" className="">
+            <a href="https://www.instagram.com/bhardwaj.somanshu/" className="">
               <FontAwesomeIcon icon={faInstagram} className="text-2xl" />
             </a>
-            <a href="" className="">
+            <a href="https://twitter.com/somanshubha" className="">
               <FontAwesomeIcon icon={faXTwitter} className="text-2xl" />
             </a>
           </div>
@@ -95,31 +99,31 @@ export default function App() {
                   somanshubhardwaj.vercel.app
                 </span>
               </a>
-              <a className="flex gap-2 items-center">
+              <a className="flex gap-2 items-center" href="https://www.instagram.com/bhardwaj.somanshu/">
                 <FontAwesomeIcon
                   icon={faInstagram}
                   className="text-xl text-gray-400"
                 />
                 <span className="font-semibold">bhardwaj.somanshu</span>
               </a>
-              <a className="flex gap-2 items-center">
+              <a className="flex gap-2 items-center" href="https://twitter.com/somanshubha">
                 <FontAwesomeIcon
                   icon={faXTwitter}
                   className="text-xl text-gray-400"
                 />
                 <span className="font-semibold">@somanshubha</span>
               </a>
-              <a className="flex gap-2 items-center">
+              <a className="flex gap-2 items-center" href="https://www.linkedin.com/in/somanshubhardwaj">
                 <FontAwesomeIcon
                   icon={faLinkedin}
                   className="text-xl text-gray-400"
                 />
                 <span className="font-semibold">in/somanshubhardwaj</span>
               </a>
-              <a className="flex gap-2 items-center">
+              <a className="flex gap-2 items-center" href="https://github.com/somanshubhardwaj">
                 <FontAwesomeIcon
                   icon={faGithub}
-                  className="text-xl text-gray-400"
+                  className="text-xl text-gray-400" 
                 />
                 <span className="font-semibold">somanshubhardwaj</span>
               </a>
@@ -130,86 +134,35 @@ export default function App() {
               <motion.div
                 key={tab.id}
                 onClick={() => setTabs(tab.id)}
-                className={tab.id == tabs ? "selected tabstyle" : "tabstyle"}            
+                className={tab.id == tabs ? "selected tabstyle" : "tabstyle"}
               >
-                <motion.h1 className="text-xl font-bold text-center "  whileHover={{ scale: 1.2 }}>{tab.name}</motion.h1>
+                <motion.h1
+                  className="text-xl font-bold text-center "
+                  whileHover={{ scale: 1.2 }}
+                >
+                  {tab.name}
+                </motion.h1>
               </motion.div>
             ))}
           </section>
           <section className="">
-            <AnimatePresence>
-              {tabs === 1 && (
-                <motion.section
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <h1 className="text-xl font-bold">About</h1>
-                  <div className="projects mt-6">
-                    <div className="project bg-gray-900 p-3 rounded-xl my-2">
-                      <h1 className="text-lg font-bold">Project 1</h1>
-                      <p className="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Voluptate, nemo.
-                      </p>
-                    </div>
-                    <div className="project bg-gray-900 p-3 rounded-xl my-2">
-                      <h1 className="text-lg font-bold">Project 2</h1>
-                      <p className="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Voluptate, nemo.
-                      </p>
-                    </div>
-                    <div className="project bg-gray-900 p-3 rounded-xl my-2">
-                      <h1 className="text-lg font-bold">Project 3</h1>
-                      <p className="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Voluptate, nemo.
-                      </p>
-                    </div>
-                  </div>
-                </motion.section>
-              )}
-            </AnimatePresence>
+           
             <AnimatePresence>
               {tabs === 2 && (
                 <motion.section
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                 >
-                  <h1 className="text-xl font-bold">Projects</h1>
-                  <div className="projects mt-6">
-                    <div className="project bg-gray-900 p-3 rounded-xl my-2">
-                      <h1 className="text-lg font-bold">Project 1</h1>
-                      <p className="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Voluptate, nemo.
-                      </p>
-                    </div>
-                    <div className="project bg-gray-900 p-3 rounded-xl my-2">
-                      <h1 className="text-lg font-bold">Project 2</h1>
-                      <p className="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Voluptate, nemo.
-                      </p>
-                    </div>
-                    <div className="project bg-gray-900 p-3 rounded-xl my-2">
-                      <h1 className="text-lg font-bold">Project 3</h1>
-                      <p className="text-sm">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Voluptate, nemo.
-                      </p>
-                    </div>
-                  </div>
+                  <Projects />
                 </motion.section>
               )}
             </AnimatePresence>
             <AnimatePresence>
               {tabs === 3 && (
                 <motion.section
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                 >
                   <Skills />
@@ -219,7 +172,7 @@ export default function App() {
           </section>
         </section>
       </div>
-    </div>
+    </div></>
   );
 }
 
@@ -277,3 +230,107 @@ const Skills = () => {
     </div>
   );
 };
+const Projects = () => {
+  const projectlist = [
+    {
+      id: 1,
+      name: "MyPortfolio",
+      description: "My portfolio website",
+      techstack: ["React", "TailwindCSS", "Framer Motion", "TypeScript"],
+      link: "https://github.com/somanshubhardwaj/myportfolio",
+    },
+    {
+      id: 2,
+      name: "Password Generator",
+      description: "A password generator",
+      techstack: ["React", "JavaScript"],
+      link: "https://github.com/somanshubhardwaj/generatepassword",
+    },
+    {
+      id: 3,
+      name: "Jujutsu Kaisen",
+      description: "A website for jujutsu kaisen",
+      techstack: ["HTML", "CSS"],
+      link: "https://github.com/somanshubhardwaj/jujutsu-kaisen",
+    },
+    {
+      id: 4,
+      name: "Finacial Tracker",
+      description: "A financial tracker website",
+      techstack: ["NextJS", "TailwindCSS", "NextAUth", "MongoDB"],
+      link: "https://github.com/somanshubhardwaj/finacialtracker",
+    },
+    {
+      id: 5,
+      name: "NextTweet",
+      description: "A Twitter Api",
+      techstack: ["react-tweet", "TailwindCSS", "NextJS"],
+      link: "https://github.com/somanshubhardwaj/next-tweet",
+    },
+    {
+      id: 6,
+      name: "MyTodoApp",
+      description: "A Todo App",
+      techstack: ["ReactNative", "Expo", "TypeScript"],
+      link: "https://github.com/somanshubhardwaj/my-todo-app",
+    },
+    {
+      id: 7,
+      name: "EduVault",
+      description: "A educational website",
+      techstack: ["NUxtJS", "NuxtStudio", "TypeScript"],
+      link: "https://github.com/somanshubhardwaj/EduVault",
+    },
+    {
+      id: 8,
+      name: "NuxtProject",
+      description: "My Blog website",
+      techstack: ["NextJS", "TailwindCSS", "TypeScript"],
+      link: "https://github.com/somanshubhardwaj/nuxtproject",
+    },
+    {
+      id: 9,
+      name: "NewsApp",
+      description: "A news app",
+      techstack: ["NextJS", "TailwindCSS", "JavaScript", "API"],
+      link: "https://github.com/somanshubhardwaj/newsapp",
+    },
+    {
+      id: 10,
+      name: "Stock",
+      description: "A stock website",
+      techstack: ["NextJS", "TailwindCSS", "JavaScript", "API"],
+      link: "https://github.com/somanshubhardwaj/stock",
+    },
+  ];
+  return (
+    <div className="">
+      {projectlist.map((project) => (
+        <div className="project bg-gray-900 pt-6 rounded-xl my-2 px-3">
+          <a href={project.link} className="text-lg font-bold text-[#60aeff]">
+            {project.name}
+          </a>
+          <p className="text-sm text-gray-400">{project.description}</p>
+          <div className="flex gap-2 py-2">
+            {project.techstack.map((tech) => (
+              <span className="text-sm border  border-[#60aeff] px-3 py-1 rounded-3xl">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const About =()=>{
+  return(
+    <div className="pt-6">
+      <p className="text-justify">
+        I am a Full Stack Developer with a passion for learning and exploring new technologies. I am a B. Tech Engineering Physics Undergrad with a keen interest in web development. I am a fast learner and open source enthusiast. I am always looking for new opportunities to learn and grow.
+      </p>
+      <span className="font-bold text-xl mt-6 mb-2"> What I'm doing</span>
+    </div>
+  )
+}
