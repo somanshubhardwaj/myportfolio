@@ -323,14 +323,3 @@ const Projects = () => {
     </div>
   );
 };
-
-const About =()=>{
-  return(
-    <div className="pt-6">
-      <p className="text-justify">
-        I am a Full Stack Developer with a passion for learning and exploring new technologies. I am a B. Tech Engineering Physics Undergrad with a keen interest in web development. I am a fast learner and open source enthusiast. I am always looking for new opportunities to learn and grow.
-      </p>
-      <span className="font-bold text-xl mt-6 mb-2"> What I'm doing</span>
-    </div>
-  )
-}
