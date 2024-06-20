@@ -1,4 +1,4 @@
-import profile from "./assets/react.svg";
+import profile from "./assets/img.jpg";
 import { motion, AnimatePresence,useScroll,useSpring } from "framer-motion";
 import { useState } from "react";
 import "./App.css";
